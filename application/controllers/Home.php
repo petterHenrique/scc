@@ -8,8 +8,13 @@ class Home extends CI_Controller {
 		if(!empty($_SESSION['usuarioLogado'])){
 			redirect('/gerenciador/Dashboard');
 		}else{
-			$this->load->view('gerenciador/index');
+			$this->load->view('index');
 		}
+	}
+
+	public function deslogar(){
+		session_destroy();
+		redirect('/home/index');
 	}
 
 	public function auth(){

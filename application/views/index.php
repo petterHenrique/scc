@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link href="<?=base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=base_url()?>assets/css/floating-labels.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/css/font-awesome.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pnotify.custom.min.css" rel="stylesheet">
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;

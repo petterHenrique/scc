@@ -9,4 +9,14 @@ class CargosModel extends CI_Model {
     	$cargos = $this->db->get("cargos")->result();
         return $cargos;
 	}
+
+	public function salvar($entidade){
+		if($entidade['COD_CARGO'] != 0){
+			$this->db->where('COD_CARGO', $entidade['COD_CARGO']);
+    		$this->db->set($entidade);
+    		$this->db->update('cargos', $entidade);
+		}else{
+			$this->db->insert('cargos',$entidade);
+		}
+	}
 }
