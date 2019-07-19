@@ -1,0 +1,20 @@
+
+#form-container {
+     width: 100vw;
+     height: 100vh;
+     background: #d2d6de;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center
+ }
+
+ #form-box {
+     width: 450px;
+     padding: 30px;
+     box-sizing: border-box;
+ }
+
+ #form-box input {
+     font-size: medium;
+ }
