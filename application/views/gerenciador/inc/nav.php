@@ -35,7 +35,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="<?=base_url()?>index.php/home/">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only">(atual)</span>
                 </a>

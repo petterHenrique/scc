@@ -1,11 +1,28 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Categorias extends CI_Model {
+class CategoriasModel extends CI_Model {
 
-	public function getAll()
+	public function getAll($tenantId)
 	{
-    	$categorias = $this->db->get("categorias")->result_row();
+		$this->db->where('TENANT_ID', $tenantId);
+    	$categorias = $this->db->get("categorias")->result();
         return $categorias;
+	}
+
+	public function salvar($entidade){
+		if($entidade['COD_CATEGORIA'] != 0){
+			$this->db->where('COD_CATEGORIA', $entidade['COD_CATEGORIA']);
+    		$this->db->set($entidade);
+    		$this->db->update('categorias', $entidade);
+		}else{
+			$this->db->insert('categorias',$entidade);
+		}
+	}
+
+	public function excluir($codigo, $tenantId){
+		$this->db->where('COD_CATEGORIA', $codigo);
+		$this->db->where('TENANT_ID', $tenantId);
+   		$this->db->delete('categorias'); 
 	}
 }

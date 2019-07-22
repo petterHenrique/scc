@@ -19,4 +19,10 @@ class CargosModel extends CI_Model {
 			$this->db->insert('cargos',$entidade);
 		}
 	}
+
+	public function excluir($codigo, $tenantId){
+		$this->db->where('COD_CARGO', $codigo);
+		$this->db->where('TENANT_ID', $tenantId);
+   		$this->db->delete('cargos'); 
+	}
 }

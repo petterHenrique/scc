@@ -60,6 +60,40 @@ class Cargos extends MasterLogado {
         	));
         }
 	}
+	
+	public function excluir(){
+
+		try{
+
+			$codigoExclusao = $this->input->post('codigo');
+
+			$this->load->model('CargosModel');
+
+			$excluir = $this->CargosModel->excluir($codigoExclusao, $this->usuario->TENANT_ID);
+
+			$this->output
+	        	->set_status_header(200)
+	        	->set_content_type('application/json', 'utf-8')
+	        	->set_output(json_encode(
+	        		array(
+	        			'sucesso' => true,
+	        			'msg' => "Cargo salvo com sucesso!"
+	        		)
+	        	));
+
+		} catch (Exception $e) {
+
+		    $this->output
+        	->set_status_header(200)
+        	->set_content_type('application/json', 'utf-8')
+        	->set_output(json_encode(
+        		array(
+        			'sucesso' => false,
+        			'msg' => $e->getMessage()
+        		)
+        	));
+        }
+	}
 
 	public function listarTodosCargos(){
 		$this->load->model('CargosModel');
