@@ -1,10 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios extends CI_Model {
+class UsuariosModel extends CI_Model {
 
 	public function getAll(){
-		$usuarios = $this->db->get("usuarios")->result_row();
+		$this->db->where("TIP_MASTER", 0);
+		$usuarios = $this->db->get("usuarios")->result();
 		return $usuarios;
 	}
 
@@ -15,5 +16,15 @@ class Usuarios extends CI_Model {
 		$this->db->where('TIP_ATIVO', 1);
     	$usuario = $this->db->get("usuarios")->row();
         return $usuario;
+	}
+
+	public function salvar($entidade){
+		if($entidade['COD_USUARIO'] != 0){
+			$this->db->where('COD_USUARIO', $entidade['COD_USUARIO']);
+    		$this->db->set($entidade);
+    		$this->db->update('usuarios', $entidade);
+		}else{
+			$this->db->insert('usuarios',$entidade);
+		}
 	}
 }

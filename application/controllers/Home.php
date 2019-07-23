@@ -12,6 +12,51 @@ class Home extends CI_Controller {
 		}
 	}
 
+	public function deslogar(){
+		session_destroy();
+		redirect('/home/index');
+	}
+
+	public function esqueceusenha(){
+		$this->load->view('esqueceusenha');
+	}
+
+	public function enviarsenha(){
+		try{
+
+			$email = $this->input->post('email');
+
+			if(empty($email)){
+				throw new Exception("Preencha o campo E-mail!", 1);
+			}
+
+			$this->load->model("Login");
+
+			$this->Login->enviarsenhaemail($email);
+
+			$this->output
+	        	->set_status_header(200)
+	        	->set_content_type('application/json', 'utf-8')
+	        	->set_output(json_encode(
+	        		array(
+	        			'sucesso' => true,
+	        			'msg' => "Verifique a caixa de entrada do seu e-mail"
+	        		)
+	        	));
+
+		} catch (Exception $e) {
+
+		    $this->output
+        	->set_status_header(200)
+        	->set_content_type('application/json', 'utf-8')
+        	->set_output(json_encode(
+        		array(
+        			'sucesso' => false,
+        			'msg' => $e->getMessage()
+        		)
+        	));
+		}
+	}
 
 	public function auth(){
 

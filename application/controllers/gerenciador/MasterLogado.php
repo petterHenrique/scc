@@ -37,11 +37,21 @@ abstract class MasterLogado extends CI_Controller {
     	}
 
     }
+
+    public function verificaAcessoDespesas(){
+    	$usuario = $_SESSION['usuarioLogado'];
+    	if(empty($usuario)){
+    		header("Location: ".base_url()."index.php/gerenciador/Dashboard");
+    	}else if(!$usuario->NIVEL_USUARIO == EnumAdminstrador::usuario
+    		|| !$usuario->NIVEL_USUARIO == EnumAdminstrador::administrador){
+    		header("Location: ".base_url()."index.php/gerenciador/Dashboard");
+    	}
+    }
 }
 
 abstract class EnumAdminstrador{
 
-	public const administrado = 1;
+	public const administrador = 1;
 	public const usuario = 2;
 
 

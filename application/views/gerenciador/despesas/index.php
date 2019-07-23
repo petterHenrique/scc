@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
         	<div class="col-md-6">
         		<div class="panel-header-top">
-        			 <h4>Categorias</h4>
+        			 <h4>Despesas</h4>
         		</div>
         	</div>
         	<div class="col-md-6">
@@ -41,6 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         		</div>
         	</div>
         </div>
+
+         
           
           <div id="resultado">
           	<div class="table-responsive">
@@ -48,19 +50,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <thead>
                 <tr>
                   <th>Descrição</th>
-                  <th>Limite Gasto</th>
-                  <th>Conta Contábil</th>
+                  <th>Valor</th>
+                  <th>Categoria</th>
+                  <th>Data</th>
+                  <th>Centro Custo</th>
+                  <th>Anexo</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
               	<?php 
-              	foreach ($categorias as $categoria) { 
+              	foreach ($despesas as $despesa) { 
               	?>
-          		<tr class="item" data-codigo="<?=$categoria->COD_CATEGORIA;?>">
-                  <td><?=$categoria->DES_CATEGORIA;?></td>
-                  <td><span style="font-size:13px;" class="badge badge-success">R$ <?=number_format((float)$categoria->LIMITE_GASTO, 2, ',', '');?></span></td>
-                  <td><?=$categoria->CONTA_CONTABIL;?></td>
+          		<tr class="item" data-codigo="<?=$despesa->COD_DESPESA;?>">
+                  <td><?=$despesa->DES_DESPESA;?></td>
                   <td> 
                   	<span class="editar" style="cursor:pointer;"> 
                   		<i class="far fa-lg fa-edit text-primary"></i>
@@ -81,28 +84,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
     </div>
 
-    <div class="modal fade" id="modalCategorias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCargos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">Despesa</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	      	<input type="hidden" id="codigocategoria" value="0"/>
+	      	<input type="hidden" id="codigocargo" value="0"/>
 	        <div class="form-group">
 			    <label for="exampleInputEmail1">Nome</label>
-			    <input type="text" class="form-control" maxlength="100" id="descategoria" placeholder="Preencha o nome da categoria" autofocus>
-			</div>
-			<div class="form-group">
-			    <label for="exampleInputEmail1">Conta Contábil</label>
-			    <input type="text" class="form-control" maxlength="100" id="contacontabil" placeholder="Preencha conta contábil" autofocus>
-			</div>
-			<div class="form-group">
-			    <label for="exampleInputEmail1">Limite de Gasto</label>
-			    <input onKeyPress="return(moeda(this,'.',',',event))" type="text" class="form-control" maxlength="100" id="limitegasto" placeholder="0,00" autofocus>
+			    <input type="text" class="form-control" id="descargo" placeholder="Preencha o nome do cargo" autofocus>
 			</div>
 	      </div>
 	      <div class="modal-footer">
@@ -125,9 +120,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$(() => {
 
 			$(".adicionar").on('click', function(){
-				$("#modalCategorias").modal('show');
+				$("#modalCargos").modal('show');
 				setTimeout(function(){
-					$("#descategoria").focus();
+					$("#descargo").focus();
 				},400);
 			});
 
@@ -148,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  if (result.value) {
 
 				  	$.ajax({
-				  		url: "<?=base_url()?>index.php/gerenciador/categorias/excluir",
+				  		url: "<?=base_url()?>index.php/gerenciador/Cargos/excluir",
 				  		method: "POST",
 				  		data: {
 				  			codigo:codigoExclusao
@@ -185,21 +180,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				let contexto = $(this);
 
-				if(!$("#descategoria").val()){
-					$("#descategoria").focus();
-				}
-				else if(!$("#limitegasto").val()){
-					$("#limitegasto").focus();
-				}
-				else{
+				if(!$("#descargo").val()){
+					$("#descargo").focus();
+				}else{
 					$.ajax({
 						method: "POST",
-						url: "<?=base_url()?>index.php/gerenciador/categorias/Salvar",
+						url: "<?=base_url()?>index.php/gerenciador/cargos/Salvar",
 						data: {
-							codigocategoria: $("#codigocategoria").val(),
-							descategoria: $("#descategoria").val(),
-							contacontabil: $("#contacontabil").val(),
-							limitegasto: $("#limitegasto").val()
+							codigo: $("#codigocargo").val(),
+							descargo: $("#descargo").val()
 						},
 						beforeSend: function(){
 							contexto.html('<i class="fas fa-circle-notch fa-spin"></i>');
@@ -215,9 +204,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								    hide: true
 								});
 
-								$("#modalCategorias").modal('hide');
+								$("#modalCargos").modal('hide');
 
-								$.post("<?=base_url()?>index.php/gerenciador/categorias/listarTodasCategorias", {}, function(data){
+								$.post("<?=base_url()?>index.php/gerenciador/cargos/listarTodosCargos", {}, function(data){
 									$("#resultado").html(data);
 								});
 							}else{
@@ -243,43 +232,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 			});
 		});
-
-	    function moeda(a, e, r, t) {
-		    let n = ""
-		      , h = j = 0
-		      , u = tamanho2 = 0
-		      , l = ajd2 = ""
-		      , o = window.Event ? t.which : t.keyCode;
-		    if (13 == o || 8 == o)
-		        return !0;
-		    if (n = String.fromCharCode(o),
-		    -1 == "0123456789".indexOf(n))
-		        return !1;
-		    for (u = a.value.length,
-		    h = 0; h < u && ("0" == a.value.charAt(h) || a.value.charAt(h) == r); h++)
-		        ;
-		    for (l = ""; h < u; h++)
-		        -1 != "0123456789".indexOf(a.value.charAt(h)) && (l += a.value.charAt(h));
-		    if (l += n,
-		    0 == (u = l.length) && (a.value = ""),
-		    1 == u && (a.value = "0" + r + "0" + l),
-		    2 == u && (a.value = "0" + r + l),
-		    u > 2) {
-		        for (ajd2 = "",
-		        j = 0,
-		        h = u - 3; h >= 0; h--)
-		            3 == j && (ajd2 += e,
-		            j = 0),
-		            ajd2 += l.charAt(h),
-		            j++;
-		        for (a.value = "",
-		        tamanho2 = ajd2.length,
-		        h = tamanho2 - 1; h >= 0; h--)
-		            a.value += ajd2.charAt(h);
-		        a.value += r + l.substr(u - 2, u)
-		    }
-		    return !1
-		}
 	</script>
   </body>
 </html>

@@ -13,14 +13,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link href="<?=base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos customizados para esse template -->
     <link href="<?=base_url()?>assets/css/dashboard.css" rel="stylesheet">
+    <script src="<?=base_url()?>assets/js/awesome.js"></script>
   </head>
 
   <body>
     	
     	<?php 
-
-    	include 'inc/nav.php';
-
+    		$this->load->view("/gerenciador/inc/nav.php");
     	?>
 
         <main style="margin-top:20px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">

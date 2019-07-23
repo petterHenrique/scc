@@ -100,4 +100,16 @@ class Cargos extends MasterLogado {
 		$dados['cargos'] = $this->CargosModel->getAll($this->usuario->TENANT_ID);
 		$this->load->view('/gerenciador/cargos/viewModel', $dados);
 	}
+
+	public function getAllJson(){
+		$this->load->model('CargosModel');
+		$dados = $this->CargosModel->getAll($this->usuario->TENANT_ID);
+
+		$this->output
+	        	->set_status_header(200)
+	        	->set_content_type('application/json', 'utf-8')
+	        	->set_output(json_encode(
+	        		$dados
+	        	));
+	}
 }

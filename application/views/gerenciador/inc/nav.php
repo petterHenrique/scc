@@ -24,7 +24,7 @@
       
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sair</a>
+          <a class="nav-link" href="<?=base_url()?>index.php/home/deslogar">Sair</a>
         </li>
       </ul>
     </nav>
@@ -36,8 +36,8 @@
             <ul class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" href="<?=base_url()?>index.php/home/">
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(atual)</span>
+                  <i class="fas fa-tachometer-alt"></i>
+                  Dashboard 
                 </a>
               </li>
 
@@ -46,26 +46,26 @@
               ?>
               <li class="nav-item">
                 <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/cargos">
-                  <span data-feather="shopping-cart"></span>
+                  <i class="fas fa-briefcase"></i>
                   Cargos
                 </a>
               </li>
               
               <li class="nav-item">
                 <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/categorias">
-                  <span data-feather="shopping-cart"></span>
+                  <i class="fas fa-bars"></i>
                   Categorias
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/Centrocusto">
-                  <span data-feather="bar-chart-2"></span>
+                  <i class="fas fa-funnel-dollar"></i>
                   Centro Custo
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/usuarios">
-                  <span data-feather="users"></span>
+                  <i class="fas fa-user"></i>
                   Usuários
                 </a>
               </li>
@@ -73,9 +73,9 @@
           		}
               ?>
               <li class="nav-item">
-                <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/lancamentos">
-                  <span data-feather="users"></span>
-                  Lançamentos de Despesas
+                <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/despesas">
+                  &nbsp;<i class="fas fa-dollar-sign"></i>
+                  Despesas
                 </a>
               </li>
               <?php
@@ -83,7 +83,7 @@
               ?>
               <li class="nav-item">
                 <a class="nav-link" href="<?=base_url()?>index.php/gerenciador/relatorios">
-                  <span data-feather="users"></span>
+                  <i class="fas fa-chart-line"></i>
                   Relatórios
                 </a>
               </li>

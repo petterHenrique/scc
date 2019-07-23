@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Upsy Tecnologia">
-    <title>Gerenciador Controle Contas</title>
+    <title>Recuperar senha</title>
     <meta name="robots" CONTENT="noindex,follow">
     <!-- Bootstrap core CSS -->
 	<link href="<?=base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
@@ -45,21 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	   	 	<img src="<?=base_url()?>assets/img/logo.svg" class="img-fluid"/>
 	    </h1>
 	  </div>
-
+	  <div class="form-label-group">
+	  	<p class="text-center">Preencha seu e-mail corretamente para que possamos reenviar a senha na sua caixa de entrada.</p>
+	  </div>
 	  <div class="form-label-group">
 	    <input type="email" autocomplete="off" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
 	    <label for="inputEmail">E-mail</label>
 	  </div>
-
-	  <div class="form-label-group">
-	    <input type="password" autocomplete="off" id="inputPassword" class="form-control" placeholder="Password">
-	    <label for="inputPassword">Senha</label>
-	  </div>
-	  <div class="form-label-group">
-	  	<a href="<?=base_url()?>index.php/home/esqueceusenha" class="text-primary">Esqueceu sua senha?</a>
-	  </div>
-
-
 
 	  <div class="alert alert-success alertasucesso hidden" role="alert">
 	  	<strong class="msgsucesso"></strong>
@@ -67,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  <div class="alert alert-danger alertaerro hidden" role="alert">
 		<strong class="msgerro"></strong>
 	  </div>
-	  <button class="btn btn-outline-primary btn-block btn-logar" type="button">Logar-se</button>
+	  <button class="btn btn-outline-primary btn-block btn-recuperarsenha" type="button">Recuperar Senha</button>
 	  <p class="mt-5 mb-3 text-muted text-center">&copy; Todos os Direitos Reservados <?=date("Y")?></p>
 	</div>
    </body>
@@ -78,36 +70,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$(() => {
 
-			$(".btn-logar").on("click", function(e){
+			$(".btn-recuperarsenha").on("click", function(e){
 				e.preventDefault();
-				logar($(this));
+				reset($(this));
 			});
-
-			$("#inputPassword").on("keypress", function(e){
+			$("#inputEmail").on("keypress", function(e){
 				//e.preventDefault();
 				if(e.keyCode == 13){
-					logar($(".btn-logar"));
+					reset($(".btn-recuperarsenha"));
 				}
 			});
-
 		});
 
-
-		function logar(){
+		function reset(contexto){
 			if(Validar()){
 
-					let btn = $(this);
+					let btn = $(contexto);
 
-					//btn.html('<i class="fas fa-circle-notch fa-spin"></i>');
 					btn.html('<img style="width:30px;" src="<?=base_url()?>assets/img/loader.gif" />');
 
-				
 					$.ajax({
-						url: "<?=base_url()?>index.php/home/auth",
+						url: "<?=base_url()?>index.php/home/enviarsenha",
 						method:"POST",
 						data: {
-							email: $("#inputEmail").val(),
-							senha: $("#inputPassword").val()
+							email: $("#inputEmail").val()
 						},
 						beforeSend: function(){
 
@@ -119,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$(".msgsucesso").text(data.msg);
 
 								setTimeout(function(){
-									window.location.href="<?=base_url()?>index.php/gerenciador/Dashboard"
+									window.location.href="<?=base_url()?>index.php/home/"
 								},2000);
 
 							}else{
@@ -132,29 +118,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log(data);
 						},
 						complete: function(){
-							btn.html('Logar-se');
+							btn.html('Recuperar Senha');
 						}
 					});
 
-				}
-
-				setTimeout(function(){
+					setTimeout(function(){
 						$(".alertaerro,.alertasucesso").addClass("hidden");
 					},2000);
+
+				}
 		}
 
 		function Validar(){
 
 			let email = $("#inputEmail");
-			let senha = $("#inputPassword");
 
 			if(!email.val()){
 				email.focus();
 
-				return false;
-			}
-			else if(!senha.val()){
-				senha.focus();
 				return false;
 			}
 

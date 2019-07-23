@@ -3,52 +3,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 include "MasterLogado.php";
 
-class Usuarios extends MasterLogado {
+class Despesas extends MasterLogado {
 
 	public function __construct()
     {
         parent::__construct();
-        $this->verificaAdministrador();
+        $this->verificaAcessoDespesas();
     }
 
 	public function index()
 	{
-		$this->load->model('UsuariosModel');
-		$dados['usuarios'] = $this->UsuariosModel->getAll($this->usuario->TENANT_ID);
-		$this->load->view('/gerenciador/usuarios/index', $dados);
+		$this->load->model('DespesasModel');
+		$dados['despesas'] = $this->DespesasModel->getAll($this->usuario->TENANT_ID);
+		$this->load->view('/gerenciador/despesas/index', $dados);
 	}
 
 	public function salvar(){
 		try{
 
-			$codigo = $this->input->post('codigousuario');
-			$desusuario = $this->input->post('desusuario');
-			$emailusuario = $this->input->post('emailusuario');
-			$senhausuario = $this->input->post('senhausuario');
-			$nivelusuario =  $this->input->post('nivelusuario');
-			$codigocargo = $this->input->post('codigocargo');
-			$codigocentrocusto = $this->input->post('codigocentrocusto');
-			$tipativo = $this->input->post('tipativo');
-
-			$this->load->model("Login");
+			$codigo = $this->input->post('codigocategoria');
+			$descategoria = $this->input->post('descategoria');
+			$contacontabil = $this->input->post('contacontabil');
+			$limitegasto =  $this->input->post('limitegasto');
 
 			$entidade = array(
-				'COD_USUARIO' => $codigo,
-				'DES_USUARIO' => $desusuario,
-				'EMAIL_USUARIO' => $emailusuario,
-				'SENHA_USUARIO' => $this->Login->criptografarsenha($senhausuario),
-				'NIVEL_USUARIO' => $nivelusuario,
-				'COD_CARGO' => $codigocargo,
-				'COD_CENTROCUSTO' => $codigocentrocusto,
-				'COD_USUARIO_PAI' => $this->usuario->COD_USUARIO_PAI,
-				'TIP_ATIVO' => (boolean)$tipativo,
-				'TENANT_ID' => $this->usuario->TENANT_ID,
-				'TIP_MASTER' => 0
+				'COD_CATEGORIA' => $codigo,
+				'DES_CATEGORIA' => $descategoria,
+				'CONTA_CONTABIL' => $contacontabil,
+				'LIMITE_GASTO' => number_format((float)$limitegasto, 2, ',', ''),
+				'TENANT_ID' => $this->usuario->TENANT_ID
 			);
 
-			$this->load->model('UsuariosModel');
+			$this->load->model('CategoriasModel');
 
-			$salvar = $this->UsuariosModel->salvar($entidade);
+			$salvar = $this->CategoriasModel->salvar($entidade);
 
 			
 			$this->output
@@ -108,9 +96,9 @@ class Usuarios extends MasterLogado {
         }
 	}
 
-	public function listarTodosUsuarios(){
-		$this->load->model('UsuariosModel');
-		$dados['usuarios'] = $this->UsuariosModel->getAll($this->usuario->TENANT_ID);
-		$this->load->view('/gerenciador/usuarios/viewModel', $dados);
+	public function listarTodasCategorias(){
+		$this->load->model('CategoriasModel');
+		$dados['categorias'] = $this->CategoriasModel->getAll($this->usuario->TENANT_ID);
+		$this->load->view('/gerenciador/categorias/viewModel', $dados);
 	}
 }
