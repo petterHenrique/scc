@@ -202,17 +202,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 	      		</div>
 	        </div>
-
-			<div class="form-group">
-			    <label for="exampleInputEmail1">Cargo</label>
-			    <select id="cargousuario">
-			    </select>
-			</div>
-			<div class="form-group">
-			    <label for="exampleInputEmail1">Centro custo</label>
-			    <select id="centrocusto">
-			    </select>
-			</div>
+	        <div class="row">
+	      		<div class="col-md-6">
+		        	<div class="form-group">
+					    <label for="exampleInputEmail1">Cargo</label>
+					    <select id="cargousuario">
+					    </select>
+					</div>
+	        	</div>
+	        	<div class="col-md-6">
+	        		<div class="form-group">
+					    <label for="exampleInputEmail1">Centro custo</label>
+					    <select id="centrocusto">
+					    </select>
+					</div>
+	        	</div>
+	        </div>
 			<div class="form-group">
 				<label>Ativo:</label>
 				<label class="switch">

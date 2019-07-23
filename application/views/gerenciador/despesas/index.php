@@ -13,8 +13,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link href="<?=base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos customizados para esse template -->
     <link href="<?=base_url()?>assets/css/dashboard.css" rel="stylesheet">
-    <link href="<?=base_url()?>assets/css/pnotify.custom.min.css" rel="stylesheet">
+    <link href="<?=base_url()?>assets/css/pnotify.custom.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.23.0/slimselect.min.css" rel="stylesheet"></link>
     <script src="<?=base_url()?>assets/js/awesome.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+
   </head>
   <style>
   	.panel-header-top{
@@ -94,11 +97,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	      	<input type="hidden" id="codigocargo" value="0"/>
+	      	<input type="hidden" id="codigodespesa" value="0"/>
 	        <div class="form-group">
-			    <label for="exampleInputEmail1">Nome</label>
-			    <input type="text" class="form-control" id="descargo" placeholder="Preencha o nome do cargo" autofocus>
+			    <label for="exampleInputEmail1">Descrição Despesa</label>
+			    <input type="text" class="form-control" id="desdespesa" placeholder="Preencha a identificação da despesa" autofocus>
 			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+					    <label for="exampleInputEmail1">Valor</label>
+					    <input type="text" class="form-control" onKeyPress="return(moeda(this,'.',',',event))" id="valordespesa" placeholder="Preencha a identificação da despesa" autofocus>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Data</label>
+		                <div class="input-group date" id="datadespesa" data-target-input="nearest">
+		                    <input type="text" class="form-control datades datetimepicker-input" data-target="#datadespesa"/>
+		                    <div class="input-group-append" data-target="#datadespesa" data-toggle="datetimepicker">
+		                        <div class="input-group-text c"><i class="fa fa-calendar"></i></div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+					    <label for="exampleInputEmail1">Categoria</label>
+					    <select id="categoriadespesa">
+					    </select>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+					    <label for="exampleInputEmail1">Anexo</label>
+					    <button onclick="$('#anexo').click();" class="btn btn-dark btn-block"> Upload Foto/Arquivo</button>
+					    <input type="file" id="anexo" style="display:none;" />
+					</div>
+				</div>
+			</div>
+
+			
+			
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -115,12 +157,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?=base_url()?>assets/js/bootstrap.bundle.min.js"></script>
 	<script src="<?=base_url()?>assets/js/pnotify.custom.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.23.0/slimselect.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/pt-br.js">
+	</script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 	<script>
 		$(() => {
+			$('#datadespesa').datetimepicker({
+                locale: 'pt-br',
+                format: 'L'
+            });
+
+
+			$(".datades").on('click', function(){
+
+				$('.c').click();
+			});
+
 
 			$(".adicionar").on('click', function(){
 				$("#modalCargos").modal('show');
+				inicializaDrops();
 				setTimeout(function(){
 					$("#descargo").focus();
 				},400);
@@ -232,9 +290,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 			});
 		});
+
+		function moeda(a, e, r, t) {
+		    let n = ""
+		      , h = j = 0
+		      , u = tamanho2 = 0
+		      , l = ajd2 = ""
+		      , o = window.Event ? t.which : t.keyCode;
+		    if (13 == o || 8 == o)
+		        return !0;
+		    if (n = String.fromCharCode(o),
+		    -1 == "0123456789".indexOf(n))
+		        return !1;
+		    for (u = a.value.length,
+		    h = 0; h < u && ("0" == a.value.charAt(h) || a.value.charAt(h) == r); h++)
+		        ;
+		    for (l = ""; h < u; h++)
+		        -1 != "0123456789".indexOf(a.value.charAt(h)) && (l += a.value.charAt(h));
+		    if (l += n,
+		    0 == (u = l.length) && (a.value = ""),
+		    1 == u && (a.value = "0" + r + "0" + l),
+		    2 == u && (a.value = "0" + r + l),
+		    u > 2) {
+		        for (ajd2 = "",
+		        j = 0,
+		        h = u - 3; h >= 0; h--)
+		            3 == j && (ajd2 += e,
+		            j = 0),
+		            ajd2 += l.charAt(h),
+		            j++;
+		        for (a.value = "",
+		        tamanho2 = ajd2.length,
+		        h = tamanho2 - 1; h >= 0; h--)
+		            a.value += ajd2.charAt(h);
+		        a.value += r + l.substr(u - 2, u)
+		    }
+		    return !1
+		}
+
+		function inicializaDrops(){
+			$.getJSON('<?=base_url()?>index.php/gerenciador/categorias/getAllJson', function(data){
+
+				let opcoes = [];
+				console.log(data);
+				opcoes.push(new Option("", "", false, false));
+
+				for (var item in data) {
+					let entidade = data[item];
+					let option = new Option(entidade.DES_CATEGORIA, entidade.COD_CATEGORIA, false, false);
+					opcoes.push(option);
+				}
+				$("#categoriadespesa").empty();
+				$("#categoriadespesa").append(opcoes);
+			});
+
+			new SlimSelect({
+			  select: '#categoriadespesa',
+			});
+		}
+
+		
 	</script>
   </body>
-</html>
-
-
 </html>

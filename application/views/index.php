@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								$(".msgsucesso").text(data.msg);
 
 								setTimeout(function(){
-									window.location.href="<?=base_url()?>index.php/gerenciador/Dashboard"
+									location.reload();
 								},2000);
 
 							}else{
