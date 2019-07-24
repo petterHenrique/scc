@@ -80,9 +80,13 @@ class Home extends CI_Controller {
 				throw new Exception("E-mail ou senha inválidos", 1);
 			}
 
+			if(!isset($_SESSION)){
+			    session_start();
+			}
+
 			$dadosAcesso['usuarioLogado'] = $usuario;
+
 			$this->session->set_userdata($dadosAcesso);
-			//$_SESSION = $dadosAcesso;
 
 		    $this->output
         	->set_status_header(200)
