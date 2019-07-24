@@ -7,6 +7,6 @@ class Relatorios extends MasterLogado {
 
 	public function index()
 	{
-		$this->load->view('/gerenciador/index');
+		$this->load->view('/gerenciador/relatorios/index');
 	}
 }

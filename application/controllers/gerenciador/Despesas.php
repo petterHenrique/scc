@@ -14,40 +14,68 @@ class Despesas extends MasterLogado {
 	public function index()
 	{
 		$this->load->model('DespesasModel');
-		$dados['despesas'] = $this->DespesasModel->getAll($this->usuario->TENANT_ID);
+		$dados['despesas'] = $this->DespesasModel
+			->getAll($this->usuario->TENANT_ID,
+					 $this->usuario->COD_USUARIO);
 		$this->load->view('/gerenciador/despesas/index', $dados);
 	}
 
 	public function salvar(){
 		try{
 
-			$codigo = $this->input->post('codigocategoria');
-			$descategoria = $this->input->post('descategoria');
-			$contacontabil = $this->input->post('contacontabil');
-			$limitegasto =  $this->input->post('limitegasto');
+			$codigo = $this->input->post('codigodespesa');
+			$desdespesa = $this->input->post('desdespesa');
+			$valordespesa = $this->input->post('valordespesa');
+			$categoriadespesa =  $this->input->post('categoriadespesa');
+			$datadespesa =  $this->input->post('datadespesa');
 
-			$entidade = array(
-				'COD_CATEGORIA' => $codigo,
-				'DES_CATEGORIA' => $descategoria,
-				'CONTA_CONTABIL' => $contacontabil,
-				'LIMITE_GASTO' => number_format((float)$limitegasto, 2, ',', ''),
-				'TENANT_ID' => $this->usuario->TENANT_ID
-			);
+			if(isset($_FILES['arquivo'])){
 
-			$this->load->model('CategoriasModel');
+				$codigoUsuario = $this->usuario->COD_USUARIO;
 
-			$salvar = $this->CategoriasModel->salvar($entidade);
+				$urlAnexo = $_SERVER['DOCUMENT_ROOT']."/scc/uploads/".$codigoUsuario."".$_FILES['arquivo']['name'];
 
+				//verifico se existe a pasta senão cria
+				if (!is_dir($_SERVER['DOCUMENT_ROOT']."/scc/uploads/")) {
+				    mkdir($_SERVER['DOCUMENT_ROOT']."/scc/uploads/");       
+				}
+
+				//verifico se não existe o arquivo
+				if(!file_exists($urlAnexo)){
+					if(move_uploaded_file($_FILES['arquivo']['tmp_name'], $urlAnexo)){
+					}else{
+						throw new Exception("Falha ao realizar upload do arquivo", 1);
+					}
+				}
+
+				$entidade = array(
+					'COD_DESPESA' => $codigo,
+					'DES_DESPESA' => $desdespesa,
+					'VLR_DESPESA' => $valordespesa,
+					'COD_CATEGORIA' => $categoriadespesa,
+					'DTA_DESPESA' => date("Y-m-d", strtotime($datadespesa)),
+					'COD_USUARIO' => $this->usuario->COD_USUARIO,
+					'COD_CENTROCUSTO' => $this->usuario->COD_CENTROCUSTO,
+					'ANEXO_DESPESA' => $codigoUsuario."".$_FILES['arquivo']['name'],
+					'TENANT_ID' => $this->usuario->TENANT_ID
+				);
+
+				$this->load->model('DespesasModel');
+
+				$salvar = $this->DespesasModel->salvar($entidade);
 			
-			$this->output
-	        	->set_status_header(200)
-	        	->set_content_type('application/json', 'utf-8')
-	        	->set_output(json_encode(
-	        		array(
-	        			'sucesso' => true,
-	        			'msg' => "Categoria salva com sucesso!"
-	        		)
-	        	));
+				$this->output
+		        	->set_status_header(200)
+		        	->set_content_type('application/json', 'utf-8')
+		        	->set_output(json_encode(
+		        		array(
+		        			'sucesso' => true,
+		        			'msg' => "Despesa salva com sucesso!"
+		        		)
+		        	));
+			}else{
+				throw new Exception("Arquivo não enviado!", 1);
+			}
 		} catch (Exception $e) {
 
 		    $this->output

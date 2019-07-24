@@ -81,8 +81,8 @@ class Home extends CI_Controller {
 			}
 
 			$dadosAcesso['usuarioLogado'] = $usuario;
-
-			$_SESSION = $dadosAcesso;
+			$this->session->set_userdata($dadosAcesso);
+			//$_SESSION = $dadosAcesso;
 
 		    $this->output
         	->set_status_header(200)

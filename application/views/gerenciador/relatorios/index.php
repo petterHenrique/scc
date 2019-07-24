@@ -34,60 +34,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     	?>
 
         <main style="margin-top:40px;" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          
-        <div class="row">
-        	<div class="col-md-6">
-        		<div class="panel-header-top">
-        			 <h4>Despesas</h4>
-        		</div>
-        	</div>
-        	<div class="col-md-6">
-        		<div class="panel-header-top">
-        		 	<button type="button" class="btn btn-primary float-right adicionar">Adicionar <i class="fas fa-plus-circle"></i></button>
-        		</div>
-        	</div>
-        </div>
-
-         
-          
           <div id="resultado">
-          	<div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Descrição</th>
-                  <th>Valor</th>
-                  <th>Categoria</th>
-                  <th>Data</th>
-                  <th>Anexo</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-              	<?php 
-              	foreach ($despesas as $despesa) {
-              	?>
-          		<tr class="item" data-codigo="<?=$despesa->COD_DESPESA;?>">
-                  <td><?=$despesa->DES_DESPESA;?></td>
-                  <td>R$ <?=number_format($despesa->VLR_DESPESA,2,",",".");?></td>
-                  <td><?=$despesa->DES_CATEGORIA;?></td>
-                  <td><?=date("d/m/Y", strtotime($despesa->DTA_DESPESA));?></td>
-                  <td><span onclick="window.open('<?=base_url()?>/uploads/<?=$despesa->ANEXO_DESPESA;?>','_blank');" style="cursor:pointer;" class="fas fa-paperclip text-primary fa-lg"></span></td>
-                  <td> 
-                  	<span class="editar" style="cursor:pointer;"> 
-                  		<i class="far fa-lg fa-edit text-primary"></i>
-                  	</span> 
-                  	<span class="excluir" style="cursor:pointer;"> 
-                  		<i class="far fa-lg fa-trash-alt text-danger"></i>
-                  	</span>
-                  </td>
-                </tr>
-              	<?php 
-              		}
-              	?>
-              </tbody>
-            </table>
-          </div>
+          	<ul class="nav nav-tabs" id="myTab" role="tablist">
+			  <li class="nav-item">
+			    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#relatoriogeral" role="tab" aria-controls="home" aria-selected="true">Relatório Geral</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#relatoriolancamentos" role="tab" aria-controls="profile" aria-selected="false">Relatório de Lançamentos</a>
+			  </li>
+			</ul>
+			<div class="tab-content" id="relatoriogeral">
+			  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+			  <div class="tab-pane fade" id="relatoriolancamentos" role="tabpanel" aria-labelledby="profile-tab"> 
+
+				  <div class="row" style="padding:20px;">
+				  	<div class="col-md-4">
+				  		<select id="categorias" class="">
+
+				  		</select>
+				  	</div>
+				  	<div class="col-md-4">
+				  		<select id="usuarios" class="">
+
+				  		</select>
+				  	</div>
+				  	<div class="col-md-4">
+				  		<input type="text" id="mesreferencia"/>
+				  	</div>
+				  </div>
+				  <hr>
+				  <div class="row" style="padding:20px;">
+				  	<div class="col-md-12">
+				  	</div>
+				  </div>
+			  </div>
+			</div>
           </div>
         </main>
       </div>
