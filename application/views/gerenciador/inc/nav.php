@@ -22,11 +22,17 @@
       	<img style="width:130px;" src="<?=base_url()?>assets/img/logo.svg" class="img-fluid"/>
       </a>
       
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="<?=base_url()?>index.php/home/deslogar">Sair</a>
-        </li>
-      </ul>
+      <div class="col-md-3">
+      	<div class="dropdown">
+		  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		    <?=$_SESSION['usuarioLogado']->DES_USUARIO;?>
+		  </button>
+		  <div class="dropdown-menu">
+		    <a class="dropdown-item" href="#">Configurações</a>
+		    <a class="dropdown-item" href="<?=base_url()?>index.php/home/deslogar">Sair</a>
+		  </div>
+		</div>
+      </div>
     </nav>
 
     <div class="container-fluid">

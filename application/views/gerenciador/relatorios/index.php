@@ -49,17 +49,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				  <div class="row" style="padding:20px;">
 				  	<div class="col-md-4">
-				  		<select id="categorias" class="">
-
-				  		</select>
+				  		<label>Categorias:</label>
+				  		<select id="categoriadespesa">
+					    	<option data-placeholder="true"></option>
+					    </select>
 				  	</div>
 				  	<div class="col-md-4">
-				  		<select id="usuarios" class="">
-
-				  		</select>
+				  		<label>Funcionários/Usuários:</label>
+				  		<select id="usuarios">
+					    	<option data-placeholder="true"></option>
+					    </select>
 				  	</div>
 				  	<div class="col-md-4">
-				  		<input type="text" id="mesreferencia"/>
+				  		<label for="exampleInputEmail1">Mês Referência</label>
+		                <div class="input-group date" id="mesreferencia" data-target-input="nearest">
+		                    <input type="text" placeholder="Mês/Ano" class="form-control datades datetimepicker-input" data-target="#mesreferencia"/>
+		                    <div class="input-group-append" data-target="#mesreferencia" data-toggle="datetimepicker">
+		                        <div class="input-group-text c"><i class="fa fa-calendar"></i></div>
+		                    </div>
+		                </div>
 				  	</div>
 				  </div>
 				  <hr>
@@ -99,16 +107,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-6">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Data da Nota Fiscal</label>
-		                <div class="input-group date" id="datadespesa" data-target-input="nearest">
-		                    <input type="text" placeholder="00/00/0000" class="form-control datades datetimepicker-input" data-target="#datadespesa"/>
-		                    <div class="input-group-append" data-target="#datadespesa" data-toggle="datetimepicker">
-		                        <div class="input-group-text c"><i class="fa fa-calendar"></i></div>
-		                    </div>
-		                </div>
+		                <div class="input-group date" id="datetimepicker11" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker11"/>
+                <div class="input-group-append" data-target="#datetimepicker11" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
 		            </div>
 				</div>
 			</div>
-
+ <div class="col-sm-6">
+        <div class="form-group">
+            <div class="input-group date" id="datetimepicker11" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker11"/>
+                <div class="input-group-append" data-target="#datetimepicker11" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
@@ -155,8 +172,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
 	<script>
-		$(() => {
 
+		$(() => {
+			inicializaDrops();
 			$("#anexo").on("change", function(e){
 				let arquivo = $(this).get(0).files[0];
 				$(".msg-file,.remove-file ").removeClass('hidden');
@@ -360,11 +378,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$("#categoriadespesa").append(opcoes);
 			});
 
+			$.getJSON('<?=base_url()?>index.php/gerenciador/usuarios/getAllJson', function(data){
+
+				let opcoes = [];
+				console.log(data);
+				opcoes.push(new Option("", "", false, false));
+
+				for (var item in data) {
+					let entidade = data[item];
+					let option = new Option(entidade.DES_USUARIO, entidade.COD_USUARIO, false, false);
+					opcoes.push(option);
+				}
+				$("#usuarios").empty();
+				$("#usuarios").append(opcoes);
+			});
+
 			
 			new SlimSelect({
 			  select: '#categoriadespesa'
 			});
+			new SlimSelect({
+			  select: '#usuarios'
+			});
 			
+			$("#mesreferencia").datetimepicker({
+			    viewMode: 'years',
+                format: 'MM/YYYY'
+			});
 		}
 
 		

@@ -121,7 +121,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},400);
 			});
 
-			$(".excluir").on('click', function(){
+			$(document).on('click',".editar", function(){
+
+				let codigEdicao = $(this).closest(".item").data('codigo');
+
+				$.post("<?=base_url()?>index.php/gerenciador/cargos/buscarCargoId",{codigocargo: codigEdicao}, function(data){
+
+					if(data.sucesso){
+
+						$("#modalCargos").modal('show');
+						$(document).find("#codigocargo").val(data.dados.COD_CARGO);
+						$(document).find("#descargo").val(data.dados.DES_CARGO);
+
+						setTimeout(function(){
+							$(document).find("#descargo").focus();
+						},100);
+					}else{
+
+					}
+				},'json');
+
+			});
+			$(document).on('click',".excluir", function(){
 
 				let codigoExclusao = $(this).closest(".item").data('codigo');
 				
@@ -182,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						method: "POST",
 						url: "<?=base_url()?>index.php/gerenciador/cargos/Salvar",
 						data: {
-							codigo: $("#codigocargo").val(),
+							codigocargo: $("#codigocargo").val(),
 							descargo: $("#descargo").val()
 						},
 						beforeSend: function(){

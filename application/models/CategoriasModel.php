@@ -20,6 +20,11 @@ class CategoriasModel extends CI_Model {
 		}
 	}
 
+	public function buscarCategoriaId($codCategoria){
+		$this->db->where('COD_CATEGORIA', $codCategoria);
+    	return $this->db->get("categorias")->row();
+	}
+
 	public function excluir($codigo, $tenantId){
 		$this->db->where('COD_CATEGORIA', $codigo);
 		$this->db->where('TENANT_ID', $tenantId);

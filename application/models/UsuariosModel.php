@@ -3,8 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class UsuariosModel extends CI_Model {
 
-	public function getAll(){
+	public function getAll($ativo = false, $tenantId){
+
+		if($ativo){
+			$this->db->where("TIP_ATIVO", 1);
+		}
+
 		$this->db->where("TIP_MASTER", 0);
+		$this->db->where("TENANT_ID", $tenantId);
 		$usuarios = $this->db->get("usuarios")->result();
 		return $usuarios;
 	}

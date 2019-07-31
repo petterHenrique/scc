@@ -20,6 +20,11 @@ class CargosModel extends CI_Model {
 		}
 	}
 
+	public function buscarCargoId($codCargo){
+		$this->db->where('COD_CARGO', $codCargo);
+    	return $this->db->get("cargos")->row();
+	}
+
 	public function excluir($codigo, $tenantId){
 		$this->db->where('COD_CARGO', $codigo);
 		$this->db->where('TENANT_ID', $tenantId);

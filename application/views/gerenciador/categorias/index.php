@@ -131,7 +131,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},400);
 			});
 
-			$(".excluir").on('click', function(){
+			$(document).on('click',".editar", function(){
+
+				let codigEdicao = $(this).closest(".item").data("codigo");
+
+				$.post("<?=base_url()?>index.php/gerenciador/categorias/buscarCategoriaId", {codigocategoria: codigEdicao}, function(data){
+
+					if(data.sucesso){
+						$("#codigocategoria").val(data.dados.COD_CATEGORIA);
+						$("#descategoria").val(data.dados.DES_CATEGORIA);
+						$("#contacontabil").val(data.dados.CONTA_CONTABIL);
+						$("#limitegasto").val(data.dados.LIMITE_GASTO);
+						$("#modalCategorias").modal('show');
+						setTimeout(function(){
+							$("#descategoria").focus();
+						},400);
+					}else{
+
+					}
+					
+
+
+				},'json');
+
+			});
+
+			$(document).on('click',".excluir", function(){
 
 				let codigoExclusao = $(this).closest(".item").data('codigo');
 				
@@ -236,8 +261,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						},
 						complete: function(){
 							contexto.html("Salvar");
-							$("#codigocargo").val("0");
-							$("#descargo").val("");
+							$("#codigocategoria").val(0);
+							$("#descategoria").val("");
+							$("#contacontabil").val("");
+							$("#limitegasto").val("");
 						}
 					});
 				}

@@ -45,7 +45,7 @@ class Login extends CI_Model {
 			//$this->email->cc('another@another-example.com');
 			//$this->email->bcc('them@their-example.com');
 			$this->email->subject('Olá '.$usuario->DES_USUARIO);
-			$this->email->message('Senha de acesso ao controle de contas lubritec => '.$this->md5_decrypt($usuario->SENHA_USUARIO,""));
+			$this->email->message('Senha de acesso ao controle de contas lubritec</br></br></br> <b>'.$this->md5_decrypt($usuario->SENHA_USUARIO,"").'</b>');
 			$this->email->send();
 		}
 	}

@@ -14,7 +14,7 @@ class Usuarios extends MasterLogado {
 	public function index()
 	{
 		$this->load->model('UsuariosModel');
-		$dados['usuarios'] = $this->UsuariosModel->getAll($this->usuario->TENANT_ID);
+		$dados['usuarios'] = $this->UsuariosModel->getAll(false, $this->usuario->TENANT_ID);
 		$this->load->view('/gerenciador/usuarios/index', $dados);
 	}
 
@@ -110,7 +110,18 @@ class Usuarios extends MasterLogado {
 
 	public function listarTodosUsuarios(){
 		$this->load->model('UsuariosModel');
-		$dados['usuarios'] = $this->UsuariosModel->getAll($this->usuario->TENANT_ID);
+		$dados['usuarios'] = $this->UsuariosModel->getAll(false,$this->usuario->TENANT_ID);
 		$this->load->view('/gerenciador/usuarios/viewModel', $dados);
+	}
+
+	public function getAllJson(){
+		$this->load->model('UsuariosModel');
+		$dados = $this->UsuariosModel->getAll(false, $this->usuario->TENANT_ID);
+		$this->output
+	        	->set_status_header(200)
+	        	->set_content_type('application/json', 'utf-8')
+	        	->set_output(json_encode(
+	        		$dados
+	        	));
 	}
 }

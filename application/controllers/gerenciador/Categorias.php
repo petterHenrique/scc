@@ -18,6 +18,43 @@ class Categorias extends MasterLogado {
 		$this->load->view('/gerenciador/categorias/index', $dados);
 	}
 
+	public function buscarCategoriaId(){
+		try{
+
+			$codigocategoria = $this->input->post('codigocategoria');
+
+			$this->load->model('CategoriasModel');
+
+			$categoria = $this->CategoriasModel->buscarCategoriaId($codigocategoria);
+
+			if(empty($categoria)){
+				throw new Exception("Categoria não encontrada", 1);
+			}else{
+				   $this->output
+		        	->set_status_header(200)
+		        	->set_content_type('application/json', 'utf-8')
+		        	->set_output(json_encode(
+		        		array(
+		        			'sucesso' => true,
+		        			'dados' => $categoria
+		        		)
+		        	));
+			}
+
+		} catch (Exception $e) {
+
+		    $this->output
+        	->set_status_header(200)
+        	->set_content_type('application/json', 'utf-8')
+        	->set_output(json_encode(
+        		array(
+        			'sucesso' => false,
+        			'msg' => $e->getMessage()
+        		)
+        	));
+        }
+	}
+
 	public function salvar(){
 		try{
 

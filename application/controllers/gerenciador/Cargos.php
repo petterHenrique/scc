@@ -21,6 +21,43 @@ class Cargos extends MasterLogado {
 		$this->load->view('/gerenciador/cargos/index', $dados);
 	}
 
+	public function buscarCargoId(){
+		try{
+
+			$codigo = $this->input->post('codigocargo');
+
+			$this->load->model('CargosModel');
+
+			$cargo = $this->CargosModel->buscarCargoId($codigo);
+			
+			if(empty($cargo)){
+				throw new Exception("Cargo não encontrado", 1);
+			}else{
+				 $this->output
+		        	->set_status_header(200)
+		        	->set_content_type('application/json', 'utf-8')
+		        	->set_output(json_encode(
+		        		array(
+		        			'sucesso' => true,
+		        			'dados' => $cargo
+		        		)
+		        	));
+			}
+
+		} catch (Exception $e) {
+
+		    $this->output
+        	->set_status_header(200)
+        	->set_content_type('application/json', 'utf-8')
+        	->set_output(json_encode(
+        		array(
+        			'sucesso' => false,
+        			'msg' => $e->getMessage()
+        		)
+        	));
+        }
+	}
+
 	public function salvar(){
 		try{
 
